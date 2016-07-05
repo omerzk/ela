@@ -21,16 +21,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-let logFile = "~/ela/logs/requests.log";
-let textFile = "~/ela/textFile";
-let sizeLog = "~/ela/logs/size.log";
+let logFile ="./requests.log" //"~/ela/logs/requests.log";
+let textFile = "./textFile"//"~/ela/textFile";
+let sizeLog = "./size.log"//"~/ela/logs/size.log";
 
 let logReq = (req) => req.get('user-agent') + ' ' + req.method + ' ' + req.ip + '\n';
 
 let updateSize = ()=>{
-    var stats = fs.statSync("myfile.txt");
+    var stats = fs.statSync(textFile);
     var fileSize = stats["size"]/1000;
     fs.writeFile(sizeLog, fileSize.toString());
+    console.log("File size: " + fileSize.toString());
 };
 
 app.get('/', (req, res, nxt)=>{
@@ -45,7 +46,7 @@ app.post('/', (req, res, nxt)=>{
 });
 
 app.put('/text', (req, res) => {
-    let entry = req.body.text;
+    let entry = req.body.text + '\n';
     fs.appendFile(textFile, entry, (err)=>{
         if(err) {
             console.log(err);
@@ -58,19 +59,24 @@ app.put('/text', (req, res) => {
         });
     });
 
-app.get('/text/:rows', ()=>{
+app.get('/text/:rows', (req, res)=>{
     let rows = parseInt(req.params.rows);
     let stream  = sf(textFile).slice(-rows);
     stream.pipe(res);
+
 });
 
-app.delete('/text/:rows', ()=>{
+app.delete('/text/:rows', (req, res)=>{
     let rows = parseInt(req.params.rows);
-    fs.readFile(textFile, (err, data)=>{
+    fs.readFile(textFile,'utf8', (err, data)=>{
         if(err)conosle.log(err);
         else{
-            let text = data.split('\n').slice(-rows)
-            fs.writeFile(textFile, text, (err)=>{
+            console.log(data);
+            let text = data.split('\n')
+            text.splice(-(rows + 1));
+            console.log("text: " + text);
+
+            fs.writeFile(textFile, text.join('\n'), (err)=>{
                 if(err){
                     console.log(err);
                     res.status(500).send(err);
