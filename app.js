@@ -29,7 +29,7 @@ let logReq = (req) => req.get('user-agent') + ' ' + req.method + ' ' + req.ip + 
 
 let updateSize = ()=>{
     var stats = fs.statSync(textFile);
-    var fileSize = stats["size"]/1000;
+    var fileSize = stats["size"]/1024;
     fs.writeFile(sizeLog, fileSize.toString());
     console.log("File size: " + fileSize.toString());
 };
