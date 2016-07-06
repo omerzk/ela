@@ -34,13 +34,13 @@ let updateSize = ()=>{
     console.log("File size: " + fileSize.toString());
 };
 
-app.get('/', (req, res, nxt)=>{
+app.get('/*', (req, res, nxt)=> {
     fs.appendFile(logFile, logReq(req));
     nxt();
 
 });
 
-app.post('/', (req, res, nxt)=>{
+app.post('/*', (req, res, nxt)=> {
     fs.appendFile(logFile, logReq(req));
     nxt();
 });
