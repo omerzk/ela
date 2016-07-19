@@ -21,7 +21,7 @@ let logFile = "./requests.log" //"~/ela/logs/requests.log";
 let textFile = "./textFile"//"~/ela/textFile";
 let sizeLog = "./size.log"//"~/ela/logs/size.log";
 
-let logReq = (req) => req.get('user-agent') + ' ' + req.method + ' ' + req.ip + '\n';
+let logReq = (req) =>  req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n';
 
 let updateSize = ()=>{
     var stats = fs.statSync(textFile);
@@ -31,7 +31,7 @@ let updateSize = ()=>{
 };
 
 app.get('/*', (req, res, nxt)=> {
-    fs.appendFile(logFile, logReq(req));
+    fs.appendFile(logFile, logReqlogReq(req));
     nxt();
 
 });
