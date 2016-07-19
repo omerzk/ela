@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
--let logFile ="./requests.log" //"~/ela/logs/requests.log";
+-let logFile = "./requests.log" //"~/ela/logs/requests.log";
 -let textFile = "./textFile"//"~/ela/textFile";
 -let sizeLog = "./size.log"//"~/ela/logs/size.log";
 
