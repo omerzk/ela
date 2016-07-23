@@ -21,17 +21,20 @@ let logFile = "./requests.log" //"~/ela/logs/requests.log";
 let textFile = "./textFile"//"~/ela/textFile";
 let sizeLog = "./size.log"//"~/ela/logs/size.log";
 
-let logReq = (req) =>  req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n';
+let logReq = (req) => {
+	console.log(req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n')
+	return req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n';
+}
 
 let updateSize = ()=>{
     var stats = fs.statSync(textFile);
     var fileSize = stats["size"]/1024;
-    fs.writeFile(sizeLog, fileSize.toString());
-    console.log("File size: " + fileSize.toString());
+    fs.appendFile(sizeLog, fileSize.toString() + '\n');
+    console.log("File size: " + fileSize.toString() + '\n');
 };
 
 app.get('/*', (req, res, nxt)=> {
-    fs.appendFile(logFile, logReqlogReq(req));
+    fs.appendFile(logFile, logReq(req));
     nxt();
 
 });
@@ -50,7 +53,7 @@ app.put('/text', (req, res) => {
         }
         else{
           res.status(200).send('appended!!');
-            updateSize();
+          updateSize();
         }
         });
     });
