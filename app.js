@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var sf = require('slice-file');
-
 var app = express();
 
 
@@ -22,8 +21,9 @@ let textFile = "./textFile"//"~/ela/textFile";
 let sizeLog = "./size.log"//"~/ela/logs/size.log";
 
 let logReq = (req) => {
-	console.log(req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n')
-	return req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n';
+    console.log(req.method + ' ' + req.ip + ' ' + req.get('user-agent') + '\n');
+    var ip = req.ip.split(':').pop();
+    return req.method + ' ' + ip + ' ' + req.get('user-agent') + '\n';
 }
 
 let updateSize = ()=>{
