@@ -29,7 +29,7 @@ let logReq = (req) => {
 let updateSize = ()=>{
     var stats = fs.statSync(textFile);
     var fileSize = stats["size"]/1024;
-    fs.appendFile(sizeLog, fileSize.toString() + '\n');
+    fs.writeFile(sizeLog, fileSize.toString() + '\n');
     console.log("File size: " + fileSize.toString() + '\n');
 };
 
